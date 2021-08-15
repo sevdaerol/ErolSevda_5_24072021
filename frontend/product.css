@@ -1,0 +1,45 @@
+/*polices*/
+@font-face {
+    font-family: "Roboto-Medium";
+    src: url(fonts/Roboto-Medium.ttf);
+}
+
+.product_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Roboto-Medium";
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.product_container_infos{
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: rgb(231 231 231);
+}
+.product_container_infos_title{
+    font-weight: bold;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+.product_container_infos_price{
+    font-weight: bold;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.product_container_buttons{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5%;
+    width: 100%;
+}
+.product_container_button_back, .product_container_button_addCart{
+    color: black;
+    border: 1px solid black;
+}
+.product_container_button_back:hover{
+    background-color: rgb(231 231 231);
+} 
+.product_container_button_addCart:hover{
+    background-color: rgb(231 231 231);
+}

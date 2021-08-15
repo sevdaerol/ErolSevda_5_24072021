@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/36ca87bfcc.js" crossorigin="anonymous"></script>
+
+    <title>ORICAMS</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <h1>ORICAMS</h1>
+            </a>
+        </div>
+        <div>
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+    </header>
+    <main>
+        <div class="product_container">
+            <div class="product_container_img">
+                <img src="" alt="" class="img">
+            </div>
+            <div class="product_container_infos">
+                <div class="product_container_infos_title"></div>
+                <div class="product_container_infos_description"></div>
+                <div class="product_container_infos_price"></div>
+                <div class="product_container_infos_quantity">
+                    <label for="camNumber">Quantité :</label>
+                    <input id="camNumber" type="number" name="camNumber" value="1" min="1">
+                </div>
+                <div class="product_container_infos_lenses">
+                    <label for="lenses_select">Lentilles :</label>
+                    <select name="lenses" id="lenses_select"></select>
+                </div>
+            </div>
+            <div class="product_container_buttons">
+                <a href="index.html">
+                    <div class="product_container_button_back">Retourner au produits</div>
+                </a>
+                <a href="#">
+                    <div class="product_container_button_addCart">Ajouter au panier</div>
+                </a>
+            </div>
+            
+        </div>
+    </main>
+    <footer>
+        <div class="footer_nav">
+            <div class="contact">Contact</div>
+            <div class="mentions">Mentions légales</div>
+        </div>
+    </footer>
+
+    <script src="product.js"></script>
+    <!--JS-->
+</body>
+</html>
