@@ -10,11 +10,11 @@ const productPagePrice = document.querySelector(".product_container_infos_price"
 const camQuantity = document.querySelector("#camNumber");
 const camLenses = document.querySelector("#lenses_select")
 
-
 main();
 
 function main() {
     getArticles();
+    addToCart();
 }
 //Recuperation du produit selectionnee seulement avec le lien api plus "l'id" 
 function getArticles() {
@@ -44,13 +44,29 @@ function getArticles() {
         let option = document.createElement("option");
         option.innerText = article.lenses[i];
         camLenses.appendChild(option); //creer option pour les lentilles, est enfant de #lenses_select
-    }
-
+        }
     });
+}
 
-    
+// ----------------------------------------nouvelle fonction pour l'ajout au panier---------------------------
+function addToCart() {
+    const addToCartBtn = document.querySelector(".product_container_button_addCart");
+    //on ajoute un evenement "click" pouir l'envoi vers le panier
+    addToCartBtn.addEventListener("click", () => {       //au click
+        if (camQuantity.value > 0 && camQuantity.value < 10) {     // operateur "ET logique" si superieur a 0 et inferieur a 10
+            let addProduct = {                                   //ajoute au panier ceci
+                name: productPageTitle.innerHTML,
+                price: parseFloat(productPagePrice.innerHTML),
+                quantity: parseFloat(document.querySelector("#camNumber").value),
+                _id: id,
+            };
+
+            //tableau localstorage
+            let arrayProductsInCart = [];
 
 
 
+        }
+    })
 
-    }
+}
