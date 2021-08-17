@@ -67,16 +67,6 @@ function getArticles() { //fonction
 
 
 
-
-
-
-
-
-
-
-
-
-
                 //method pour formater le prix 
 
                 //resultsAPI[article].price = resultsAPI[article].price / 100;

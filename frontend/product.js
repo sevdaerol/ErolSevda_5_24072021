@@ -51,22 +51,41 @@ function getArticles() {
 // ----------------------------------------nouvelle fonction pour l'ajout au panier---------------------------
 function addToCart() {
     const addToCartBtn = document.querySelector(".product_container_button_addCart");
+    const addConfirmation = document.querySelector(".product_container_add_confirmation");
+    const textConfirmation = document.querySelector(".product_container_confirmation_text");
+
     //on ajoute un evenement "click" pouir l'envoi vers le panier
     addToCartBtn.addEventListener("click", () => {       //au click
         if (camQuantity.value > 0 && camQuantity.value < 10) {     // operateur "ET logique" si superieur a 0 et inferieur a 10
             let addProduct = {                                   //ajoute au panier ceci
                 name: productPageTitle.innerHTML,
-                price: parseFloat(productPagePrice.innerHTML),
+                price: parseFloat(productPagePrice.innerHTML),    //"parsefloat" nombreflottant; pour transformer chaine de caractere
                 quantity: parseFloat(document.querySelector("#camNumber").value),
                 _id: id,
             };
-
-            //tableau localstorage
-            let arrayProductsInCart = [];
-
-
-
+//------------------LocalStorage-------------------------------------------------------
+           
+            let arrayArticlesInCart = [];   //tableau localstorage
+            
+            if (localStorage.getItem("articles") !== null) {
+                arrayArticlesInCart = JSON.parse(localStorage.getItem("articles")); //recuperer les valeurs stockee
+            }
+             
+                arrayArticlesInCart.push(addProduct);   //envoyer vers panier
+                localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart)); //stocker cle/valeur localstorage
+                //si produit ajouter au panier afficher confirmation
+                addConfirmation.style.visibility = "visible";
+                textConfirmation.innerHTML = `${camQuantity.value} article ajouté au panier!`;
+                textConfirmation.style.color = "white";
+                //executer un settimeout pour le delais d'affichage de message de confirmation
+                setTimeout("location.reload(true);", 5000);
+        } else { //si non afficher ce message
+             addConfirmation.style.visibility = "visible";
+             textConfirmation.style.background = "red";
+             textConfirmation.style.border = "red";
+             textConfirmation.innerHTML = `Sélectionner une quantité. Attention, vous ne pouvez pas ajouter plus de 10 articles!`;
+             textConfirmation.style.color = "white";
         }
-    })
-
+    });
 }
+console.log("ok!");

@@ -10,7 +10,6 @@
     align-items: center;
     font-family: "Roboto-Medium";
     margin-top: 5%;
-    margin-bottom: 5%;
 }
 .product_container_infos{
     padding-left: 5%;
@@ -42,4 +41,17 @@
 } 
 .product_container_button_addCart:hover{
     background-color: rgb(231 231 231);
+}
+.product_container_add_confirmation{
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+    width: 75%;
+}
+.product_container_confirmation_text{
+    background-color: green;
+    color: black;
+    border: 1px solid green;
+    height: 20px;
+    padding: 1px;
 }
