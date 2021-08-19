@@ -20,9 +20,68 @@
             </div>
         </header>
         <main>
-            <div class="cart_empty">
-                <h1>Votre panier est vide!</h1>
-                <a href="index.html" class="back_items">Ajouter des produits au panier</a>
+            <div class="cart_container">
+                <div class="cart_filled">
+                    <div class="cart_filled_details">
+                        <h2>Mon Panier</h2>
+                        <div class="cart_filled_informations">
+                            <div class="cart_filled_informations_title">Nom :</div>
+                            <div class="cart_filled_informations_quantity">Quantité :</div>
+                            <div class="cart_filled_informations_price">Prix :</div>
+                        </div>
+                        <h3 class="total">Total :</h3>
+                    </div>
+                    <div class="cart_order">
+                        <h3>Informations de livraison :</h3>
+                        <form class="order_form">
+                            <div class="form_name_lastname">
+                                <div class="form_name" id="name_case">
+                                    <label for="name">Prénom :</label>
+                                    <input type="text" placeholder="Prénom" id="name" name="user_name" required>
+                                </div>
+                                <div class="form_lastname" id="lastname_case">
+                                    <label for="lastname">Nom :</label>
+                                    <input type="text" placeholder="Nom" id="lastname" name="user_lastname" required>
+                                </div>
+                            </div>
+                            <div class="form_email" id="email_case">
+                                <label for="mail">Adresse mail :</label>
+                                <input type="email" placeholder="Adresse mail" id="mail" name="user_mail" required>   
+                            </div>
+                            <div class="form_adress" id="adress_case">
+                                <label for="adress">Adresse :</label>
+                                <input type="text" placeholder="Adresse de livraison" id="adress" name="user_adress" required>   
+                            </div>
+                            <div class="form_city_postal">
+                                <div class="form_city" id="city_case">
+                                    <label for="city">Ville :</label>
+                                    <input type="text" placeholder="Ville" id="city" name="user_city" required>   
+                                </div>
+                                <div class="form_postal" id="postal_case">
+                                    <label for="postal">Code postal :</label>
+                                    <input type="text" placeholder="Code postal" id="postal" name="user_postal" required>   
+                                </div>
+                            </div>
+                            <div class="error_case"></div>
+                            <div class="form_order_btn">
+                                <div id="submit" class="order_btn">Commander</div>
+                            </div>
+                        </form>
+                        <div class="empty_cart"> <!---pour vider le panier-->
+                            <a href="cart.html">
+                                <div class="empty_cart_btn">Vider mon panier</div>
+                            </a>
+                        </div>
+                        <div class="cart_ordered_confirmation">
+                            <p class="cart_ordered_confirmation_text"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart_empty">  <!----quand le panier est vide-->
+                    <h1>Votre panier est vide!</h1>
+                    <a href="index.html" class="back_items">Ajouter des produits au panier</a>
+                </div>
             </div>
         </main>
         <footer>
@@ -32,6 +91,6 @@
             </div>
         </footer>
 
-        <script src=""></script> <!--JS-->
+        <script src="cart.js"></script> <!--JavaScript-->
     </body>
 </html>
