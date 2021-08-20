@@ -1,6 +1,6 @@
 
 // ..
-main();
+main(); //function call
 // creer fonction
 function main() { //fonction
     getArticles();
