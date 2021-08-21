@@ -2,7 +2,7 @@
 let params = (new URL(document.location)).searchParams;
 let id = params.get('id');
 
-//declarer les variables
+//declarer les constante
 const productPageImg = document.querySelector(".img");
 const productPageTitle = document.querySelector(".product_container_infos_title");
 const productPageDescription = document.querySelector(".product_container_infos_description");
@@ -10,7 +10,7 @@ const productPagePrice = document.querySelector(".product_container_infos_price"
 const camQuantity = document.querySelector("#camNumber");
 const camLenses = document.querySelector("#lenses_select")
 
-main();
+main();  //call function
 
 function main() {
     getArticles();

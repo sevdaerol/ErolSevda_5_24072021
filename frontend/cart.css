@@ -3,6 +3,17 @@
   src: url(fonts/Roboto-Medium.ttf);
 }
 
+.cart_filled_informations{
+  display: flex;
+  color: black;
+}
+
+.empty_cart_btn{
+  color: black;
+  border: 1px solid ;
+  width: fit-content;
+}
+
 .cart_empty {
   display: flex;
   flex-direction: column;
