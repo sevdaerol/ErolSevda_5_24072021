@@ -6,25 +6,29 @@ main(); //function call
 function main() {
     viewCart();
     forEmptyCart();
+    totalOfCart();
 }
 
 function viewCart() {
     let filledCart = document.querySelector(".cart_filled");
-    let ifempty = document.querySelector(".empty_cart_case");
-    let emptyCart = document.querySelector(".cart_empty");
+    let ifempty = document.querySelector(".empty_cart_case"); //vider le panier
+    let emptyCart = document.querySelector(".cart_empty"); //si le panier est vide
 
     // si il ya un objet dans localstorage => afficher dans l'emplacement cree et masquer element .cart_empty
     if (localStorage.getItem("articles")) {
         filledCart.style.display = "flex";
         filledCart.style.flexDirection = "column";
-        filledCart.style.justifyContent = "space-around"
+        filledCart.style.justifyContent = "space-between";
+        filledCart.style.backgroundColor = "white";
+        filledCart.style.padding = "2%";
+        filledCart.style.height = "75%";
         emptyCart.style.display ="none";
     }
 
     //creer emplacement pour les donnees recu du tableau localstorage
     for (let article in copyLocalStorage) {
         let productInCart = document.createElement("div");
-        cart.insertBefore(productInCart, ifempty);
+        cart.insertBefore(productInCart, ifempty); //bouton vider le panier
         productInCart.classList.add("cart_filled_informations");
 
         let productName = document.createElement("div");
@@ -46,6 +50,11 @@ function viewCart() {
 }
 
 //creer fonction pour total du panier!!!!!
+function totalOfCart(){
+    let arrayForPrice = [];
+    let priceTotal = document.querySelector(".total");
+
+}
 
 
 //cree fonction puis ajouter un evenement pour vider le panier au click!
@@ -58,4 +67,6 @@ btnForEmptyCart.addEventListener("click", () => {
 
 
 //creer fonction pour soumettre le formulaire
+
+
 console.log("ok!");
