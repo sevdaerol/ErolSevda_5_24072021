@@ -59,18 +59,9 @@ function getArticles() { //fonction
                 productInfosDiv.appendChild(productInfosPrice);
                 productInfosPrice.classList.add("product_infos_price");
 
-                //formater le prix 
-                //diviser le resultat par 100 
-                resultsAPI[article].price = resultsAPI[article].price / 100;
+                // methode pour formater le prix 
                 //inserer le prix avec la methode; new = objet / intl.numberformat = la classe / paranthese = fonction => format => inserer prix
-                productInfosPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", }).format(resultsAPI[article].price);
-
-
-
-                //method pour formater le prix 
-
-                //resultsAPI[article].price = resultsAPI[article].price / 100;
-                //productInfosPrice.innerHTML = new Intl.NumberFormat("fr _FR", { style: "currency", currency: "EUR", }).format(resultsAPI[article].price);
+                productInfosPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(resultsAPI[article].price/100);
 
             }
         })

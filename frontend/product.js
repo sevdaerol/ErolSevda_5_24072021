@@ -35,8 +35,8 @@ function getArticles() {
     productPageTitle.innerHTML = article.name;
     productPageDescription.innerText = article.description;
     //REFORMATER prix!!!
-    article.price = article.price / 100;
-    productPagePrice.innerText = new Intl.NumberFormat("fr-FR", {style: "currency",currency: "eur",}).format(article.price);
+    //article.price = article.price / 100;
+    productPagePrice.innerText = new Intl.NumberFormat("fr-FR", {style: "currency",currency: "EUR",}).format(article.price/100);
     
     // creer boucle pour les options lentilles
     let camLenses = document.getElementById("lenses_select");
