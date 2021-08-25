@@ -7,6 +7,7 @@ function main() {
     viewCart();
     forEmptyCart();
     totalOfCart();
+    submitForm();
 }
 
 function viewCart() {
@@ -24,12 +25,13 @@ function viewCart() {
         filledCart.style.justifyContent = "space-between";
         filledCart.style.backgroundColor = "white";
         filledCart.style.padding = "2%";
-        filledCart.style.height = "90%";
+        filledCart.style.margin = "3%";
         filledCart.style.width = "75%";
         emptyCart.style.display = "none";
     } else { 
         orderCart.style.display = "none";
         filledCartDetails.style.display ="none";
+        filledCart.style.height = "85vh";
     }
 
     //creer emplacement pour les donnees recu du tableau localstorage
@@ -51,35 +53,32 @@ function viewCart() {
 
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
-        productPrice.classList.add("cart_filled_informations_price");
+        productPrice.classList.add("cart_filled_informations_price", "price");
         productPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(copyLocalStorage[article].price * copyLocalStorage[article].quantity);
         //reformater prix + nouvelle methode pour calculer total de plusieurs quantitees
     }
 }
 
-//creer fonction pour total du panier!!!!!
+//fonction pour total du panier!!!!!
 function totalOfCart() {
     let arrayForPrice = [];
     let priceTotal = document.querySelector(".total");
-    let productPriceQuantityTest = document.querySelector(".price");
+    let pushEachPriceToArray = document.querySelector(".price");
 
-    for (let price in productPriceQuantityTest) {
-        arrayForPrice.push(productPriceQuantityTest[price].innerHTML); // on push le prix dans le panier dans le tableau
+    for (let price in pushEachPriceToArray) {
+        arrayForPrice.push(pushEachPriceToArray[price].innerHTML); // on push le prix le tableau
     }
 
     arrayForPrice = arrayForPrice.filter((el) => { //enlever les undefined
         return el != undefined;
     });
-
+   
     arrayForPrice = arrayForPrice.map((x) => parseFloat(x));  //transformer en nombre tout les valeurs du tableau
-
-    //const reducer = (acc, currentVal) => acc + currentVal;
-    //arrayForPrice = arrayForPrice.reduce(reducer);
-    //additionner les avleurs pour avoir le total
+   
+    const reducer = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
+    arrayForPrice = arrayForPrice.reduce(reducer);
     
-
     priceTotal.innerText = `Total : ${(arrayForPrice = new Intl.NumberFormat("fr-FR",{style: "currency", currency: "EUR",}).format(arrayForPrice))}`;
-    
 
 }
 
@@ -91,8 +90,71 @@ btnForEmptyCart.addEventListener("click", () => {
 });
 }
 
+//fonction pour soumettre le formulaire
+function submitForm () {
+    const submit = document.querySelector("#submit"); 
+    let inputName = document.querySelector("#name");
+    let inputLastname = document.querySelector("#lastname");
+    let inputMail = document.querySelector("#mail");
+    let inputStreet = document.querySelector("#street");
+    let inputCity = document.querySelector("#city");
+    let inputPostal = document.querySelector("#postal");
+    let ifError = document.querySelector(".error_case");
 
-//creer fonction pour soumettre le formulaire
+    //au click si un champs n'est pas renseigner.. 
+    submit.addEventListener("click", (e) => {
+        if (
+            !inputName.value ||
+            !inputLastname.value ||
+            !inputMail.value ||
+            !inputStreet.value ||
+            !inputCity.value ||
+            !inputPostal.value 
+        )
+        
+        {
+            ifError.innerHTML = "Renseigner tout les champs!"; //..alors afficher message d'erreur
+            e.preventDefault();
+        }  
+        
+        else { 
+            let boughtArticles = []; //tableau des produits acheter
+            boughtArticles.push(copyLocalStorage);
+            //tableau + objets infos 
+            const order = {
+                contact: {
+                    firstName: inputName.value,
+                    lastName: inputLastname.value,
+                    adress: inputStreet.value,
+                    city: inputCity.value,
+                    email: inputMail.value,
+                },
+                boughts: boughtArticles,
+            };
 
+            //requete post au backend!
+            const options = {
+                method: "POST",
+                body: JSON.stringify(order),
+                headers: { "Content-Type": "application/Json"},
+            };
 
+            //formater prix pour l'affichage
+            let totalConfirmation = document.querySelector(".total").innerText;
+            totalConfirmation = totalConfirmation.split(" :");
+
+            //envoi de la requete vers la page de confirmation
+            //fetch("http://localhost:3000/api/cameras/order", options)
+            //.then((Response) => Response.json())
+            //.then((data) => {
+                localStorage.clear();
+                console.log(data)
+                localStorage.setItem("orderId", data.orderId);
+                localStorage.setItem("total", totalConfirmation[1]);
+                //verifier le statut de la requete
+                document.location.href = "confirmation.html";
+            //})
+        }
+    });
+}
 console.log("ok!");
