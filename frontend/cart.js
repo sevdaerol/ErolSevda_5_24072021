@@ -53,7 +53,7 @@ function viewCart() {
 
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
-        productPrice.classList.add("cart_filled_informations_price", "price");
+        productPrice.classList.add("cart_filled_informations_price");
         productPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(copyLocalStorage[article].price * copyLocalStorage[article].quantity);
         //reformater prix + nouvelle methode pour calculer total de plusieurs quantitees
     }
@@ -63,16 +63,16 @@ function viewCart() {
 function totalOfCart() {
     let arrayForPrice = [];
     let priceTotal = document.querySelector(".total");
-    let pushEachPriceToArray = document.querySelector(".price");
+    let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_price");
 
     for (let price in pushEachPriceToArray) {
-        arrayForPrice.push(pushEachPriceToArray[price].innerHTML); // on push le prix le tableau
+        arrayForPrice.push(pushEachPriceToArray[price].innerHTML); // on push le prix dans le tableau
     }
 
     arrayForPrice = arrayForPrice.filter((el) => { //enlever les undefined
         return el != undefined;
     });
-   
+    
     arrayForPrice = arrayForPrice.map((x) => parseFloat(x));  //transformer en nombre tout les valeurs du tableau
    
     const reducer = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
@@ -82,7 +82,7 @@ function totalOfCart() {
 
 }
 
-//cree fonction puis ajouter un evenement pour vider le panier au click!
+//fonction: evenement pour vider le panier au click!
 function forEmptyCart() {
 const btnForEmptyCart = document.querySelector(".empty_cart_btn");
 btnForEmptyCart.addEventListener("click", () => {
@@ -121,7 +121,7 @@ function submitForm () {
             let boughtArticles = []; //tableau des produits acheter
             boughtArticles.push(copyLocalStorage);
             //tableau + objets infos 
-            const order = {
+            const order = { //check backend /controllers/ camera.js
                 contact: {
                     firstName: inputName.value,
                     lastName: inputLastname.value,
@@ -129,7 +129,7 @@ function submitForm () {
                     city: inputCity.value,
                     email: inputMail.value,
                 },
-                boughts: boughtArticles,
+                products: boughtArticles,
             };
 
             //requete post au backend!
@@ -147,12 +147,12 @@ function submitForm () {
             //fetch("http://localhost:3000/api/cameras/order", options)
             //.then((Response) => Response.json())
             //.then((data) => {
-                localStorage.clear();
-                console.log(data)
-                localStorage.setItem("orderId", data.orderId);
-                localStorage.setItem("total", totalConfirmation[1]);
+                //localStorage.clear();
+                //console.log(data)
+                //localStorage.setItem("orderId", data.orderId);
+                //localStorage.setItem("total", totalConfirmation[1]);
                 //verifier le statut de la requete
-                document.location.href = "confirmation.html";
+                //document.location.href = "confirmation.html";
             //})
         }
     });
