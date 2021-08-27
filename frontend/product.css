@@ -32,8 +32,11 @@
     width: 100%;
 }
 .product_container_button_back, .product_container_button_addCart{
-    color: black;
+    background-color: black;
     border: 1px solid black;
+    padding: 2px;
+    padding-right: 3px;
+    padding-left: 3px;
 }
 .product_container_button_back:hover{
     background-color: rgb(231 231 231);

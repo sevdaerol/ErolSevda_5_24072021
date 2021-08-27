@@ -53,7 +53,7 @@ function viewCart() {
 
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
-        productPrice.classList.add("cart_filled_informations_price", "price");
+        productPrice.classList.add("cart_filled_informations_price","price");
 
         productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
             style: "currency",
