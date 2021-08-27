@@ -33,16 +33,10 @@
 }
 .product_container_button_back, .product_container_button_addCart{
     background-color: black;
-    border: 1px solid black;
+    border: 1px solid;
     padding: 2px;
     padding-right: 3px;
     padding-left: 3px;
-}
-.product_container_button_back:hover{
-    background-color: rgb(231 231 231);
-} 
-.product_container_button_addCart:hover{
-    background-color: rgb(231 231 231);
 }
 .product_container_add_confirmation{
     display: flex;
