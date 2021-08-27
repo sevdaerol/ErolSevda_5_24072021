@@ -53,15 +53,20 @@ function viewCart() {
 
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
-        productPrice.classList.add("cart_filled_informations_price");
-        productPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(copyLocalStorage[article].price * copyLocalStorage[article].quantity);
-        //reformater prix + nouvelle methode pour calculer total de plusieurs quantitees
+        productPrice.classList.add("cart_filled_informations_price", "price");
+
+        productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
+            style: "currency",
+            currency: "EUR",
+        }).format(copyLocalStorage[article].price * copyLocalStorage[article].quantity);
+        //reformater prix +  calculer total de plusieurs quantitees
     }
 }
 
 //fonction pour total du panier!!!!!
 function totalOfCart() {
     let arrayForPrice = [];
+    console.log(arrayForPrice);
     let priceTotal = document.querySelector(".total");
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_price");
 
@@ -144,16 +149,16 @@ function submitForm () {
             totalConfirmation = totalConfirmation.split(" :");
 
             //envoi de la requete vers la page de confirmation
-            //fetch("http://localhost:3000/api/cameras/order", options)
-            //.then((Response) => Response.json())
-            //.then((data) => {
-                //localStorage.clear();
-                //console.log(data)
-                //localStorage.setItem("orderId", data.orderId);
-                //localStorage.setItem("total", totalConfirmation[1]);
+            fetch("http://localhost:3000/api/cameras/order", options)
+            .then((Response) => Response.json())
+            .then((data) => {
+                localStorage.clear();
+                console.log(data)
+                localStorage.setItem("orderId", data.orderId);
+                localStorage.setItem("total", totalConfirmation[1]);
                 //verifier le statut de la requete
-                //document.location.href = "confirmation.html";
-            //})
+                document.location.href = "confirmation.html";
+            })
         }
     });
 }
