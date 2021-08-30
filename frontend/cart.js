@@ -39,21 +39,21 @@ function viewCart() {
         let productInCart = document.createElement("div");
         cart.insertBefore(productInCart, ifempty);  //bouton vider le panier aavnt les produits dans le panier
         cart.insertBefore(totalTest, ifempty); //total avant le bouton vider panier
-        productInCart.classList.add("cart_filled_informations");
+        productInCart.classList.add("cart_filled_informationsjs", "classStyle");
 
         let productName = document.createElement("div");
         productInCart.appendChild(productName);
-        productName.classList.add("cart_filled_informations_title");
+        productName.classList.add("cart_filled_informations_titlejs", "classStyle");
         productName.innerHTML = copyLocalStorage[article].name;
 
         let productQuantity = document.createElement("div");
         productInCart.appendChild(productQuantity);
-        productQuantity.classList.add("cart_filled_informations_quantity");
+        productQuantity.classList.add("cart_filled_informations_quantityjs", "classStyle" );
         productQuantity.innerHTML = copyLocalStorage[article].quantity;
 
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
-        productPrice.classList.add("cart_filled_informations_price","price");
+        productPrice.classList.add("cart_filled_informations_pricejs","classStyle",);
 
         productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
             style: "currency",
@@ -68,23 +68,26 @@ function totalOfCart() {
     let arrayForPrice = [];
     console.log(arrayForPrice);
     let priceTotal = document.querySelector(".total");
-    let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_price");
+    let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
 
     for (let price in pushEachPriceToArray) {
         arrayForPrice.push(pushEachPriceToArray[price].innerHTML); // on push le prix dans le tableau
     }
+    //console.log(arrayForPrice)
 
-    arrayForPrice = arrayForPrice.filter((el) => { //enlever les undefined
-        return el != undefined;
+    let newArrayForPrice = arrayForPrice.filter((test) => { //enlever les undefined du array => creer un nouvel array pour trier undefined
+        return test !== undefined;
     });
-    
-    arrayForPrice = arrayForPrice.map((x) => parseFloat(x));  //transformer en nombre tout les valeurs du tableau
+    console.log(newArrayForPrice);
    
     const reducer = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
-    arrayForPrice = arrayForPrice.reduce(reducer);
-    
-    priceTotal.innerText = `Total : ${(arrayForPrice = new Intl.NumberFormat("fr-FR",{style: "currency", currency: "EUR",}).format(arrayForPrice))}`;
+    let totalTest = newArrayForPrice.reduce(reducer);
 
+    console.log(totalTest)
+
+    priceTotal.innerText = `Total : ${(totalTest = new Intl.NumberFormat("fr-FR",{style: "currency", currency: "EUR",}).format(totalTest))}`;
+
+    arrayForPrice = arrayForPrice.map((x) => parseFloat(x));  //transformer en nombre tout les valeurs du tableau
 }
 
 //fonction: evenement pour vider le panier au click!
