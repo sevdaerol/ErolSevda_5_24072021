@@ -73,21 +73,18 @@ function totalOfCart() {
     for (let price in pushEachPriceToArray) {
         arrayForPrice.push(pushEachPriceToArray[price].innerHTML); // on push le prix dans le tableau
     }
-    //console.log(arrayForPrice)
 
-    let newArrayForPrice = arrayForPrice.filter((test) => { //enlever les undefined du array => creer un nouvel array pour trier undefined
-        return test !== undefined;
+    let newArrayForPrice = arrayForPrice.filter((x) => { //enlever les undefined du array => creer un nouvel array pour trier les undefined
+        return x !== undefined;
     });
     console.log(newArrayForPrice);
    
     const reducer = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
     let totalTest = newArrayForPrice.reduce(reducer);
 
-    console.log(totalTest)
+    priceTotal.innerText = `Total : ${(totalTest)}`;
 
-    priceTotal.innerText = `Total : ${(totalTest = new Intl.NumberFormat("fr-FR",{style: "currency", currency: "EUR",}).format(totalTest))}`;
-
-    arrayForPrice = arrayForPrice.map((x) => parseFloat(x));  //transformer en nombre tout les valeurs du tableau
+    newArrayForPrice.map((priceTotal) => parseInt(priceTotal));  //transformer en nombre tout les valeurs du tableau
 }
 
 //fonction: evenement pour vider le panier au click!
