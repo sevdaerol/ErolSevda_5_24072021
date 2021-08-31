@@ -58,11 +58,13 @@ function getArticles() { //fonction
                 let productInfosPrice = document.createElement("div");//element pour le prix
                 productInfosDiv.appendChild(productInfosPrice);
                 productInfosPrice.classList.add("product_infos_price");
-
+                productInfosPrice.price = resultsAPI[article].price/100;//recuperer la valeur
+               
                 // methode pour formater le prix 
                 //inserer le prix avec la methode; new = objet / intl.numberformat = la classe / paranthese = fonction => format => inserer prix
-                productInfosPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(resultsAPI[article].price/100);
+                productInfosPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(productInfosPrice.price);
 
+                
             }
         })
     console.log('ok')

@@ -54,6 +54,7 @@ function viewCart() {
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
         productPrice.classList.add("cart_filled_informations_pricejs","classStyle",);
+        productPrice.price = copyLocalStorage[article].price/100;
 
         productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
             style: "currency",
@@ -66,25 +67,27 @@ function viewCart() {
 //fonction pour total du panier!!!!!
 function totalOfCart() {
     let arrayForPrice = [];
-    console.log(arrayForPrice);
+    //console.log(arrayForPrice);
     let priceTotal = document.querySelector(".total");
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
 
-    for (let price in pushEachPriceToArray) {
-        arrayForPrice.push(pushEachPriceToArray[price].innerHTML); // on push le prix dans le tableau
+    for (let m in pushEachPriceToArray) {
+        arrayForPrice.push(pushEachPriceToArray[m].price); // on push le prix dans le tableau
     }
 
     let newArrayForPrice = arrayForPrice.filter((x) => { //enlever les undefined du array => creer un nouvel array pour trier les undefined
         return x !== undefined;
     });
     console.log(newArrayForPrice);
+
+    //newArrayForPrice.map((pushEachPriceToArray) => parseInt(pushEachPriceToArray));  //transformer en nombre tout les valeurs du tableau
    
-    const reducer = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
-    let totalTest = newArrayForPrice.reduce(reducer);
+    const reducerTest = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
+    let totalTest = newArrayForPrice.reduce(reducerTest);
+    console.log(totalTest);
 
-    priceTotal.innerText = `Total : ${(totalTest)}`;
-
-    newArrayForPrice.map((priceTotal) => parseInt(priceTotal));  //transformer en nombre tout les valeurs du tableau
+    priceTotal.innerText = `Total : ${(totalTest)} €`;
+  
 }
 
 //fonction: evenement pour vider le panier au click!

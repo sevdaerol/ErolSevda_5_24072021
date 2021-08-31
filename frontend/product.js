@@ -34,8 +34,8 @@ function getArticles() {
     productPageImg.src = article.imageUrl;
     productPageTitle.innerHTML = article.name;
     productPageDescription.innerText = article.description;
+    productPagePrice.price = article.price / 100;
     //REFORMATER prix!!!
-    //article.price = article.price / 100;
     productPagePrice.innerText = new Intl.NumberFormat("fr-FR", {style: "currency",currency: "EUR",}).format(article.price/100);
     
     // creer boucle pour les options lentilles
@@ -59,7 +59,7 @@ function addToCart() {
         if (camQuantity.value > 0 && camQuantity.value < 10) {     // operateur "ET logique" si superieur a 0 et inferieur a 10
             let addProduct = {                                   //ajoute au panier ceci
                 name: productPageTitle.innerHTML,
-                price: parseFloat(productPagePrice.innerHTML),    //"parsefloat" nombreflottant; pour transformer chaine de caractere
+                price: productPagePrice.price,
                 quantity: parseFloat(document.querySelector("#camNumber").value),
                 _id: id,
             };
