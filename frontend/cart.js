@@ -145,7 +145,7 @@ function submitForm () {
             const options = {
                 method: "POST",
                 body: JSON.stringify(order),
-                headers: { "Content-Type": "application/Json"},
+                headers: { "Content-Type": "application/json"},
             };
 
             //formater prix pour l'affichage
@@ -166,4 +166,39 @@ function submitForm () {
         }
     });
 }
+
+//-----------------REGEXP--------------------------
+let form = document.querySelector('.order_form');
+//console.log(form.user_mail);
+
+//ajouter addeventlistener pour ecouter les changements
+form.user_mail.addEventListener('change', function() {
+    validEmail(this);
+});
+
+//creer foonction validEmail
+const validEmail = function (inputEmail) {
+    let emailRegExp = new RegExp(
+        '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
+    );
+    let testEmail = emailRegExp.test(inputEmail.value);
+    //console.log(testEmail);
+    let small = inputEmail.nextElementSibling;
+
+    if (testEmail) {
+        small.innerHTML = 'Email valide!';
+        small.classList.remove('text-danger');
+        small.classList.add('text-success');
+    } else {
+        small.innerHTML = 'Email non valide!';
+        small.classList.add('text-danger');
+        small.classList.remove('text-success');
+    }
+};
+
+
+
+
+
+
 console.log("ok!");
