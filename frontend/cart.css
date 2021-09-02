@@ -62,3 +62,12 @@
 h1, h2, h3{
   margin: 1%;
 }
+
+@media screen and (max-width: 400px) {
+  .cart_container{
+    height: 90vh;
+  }
+  .form{
+    width: 100%;
+  }
+}

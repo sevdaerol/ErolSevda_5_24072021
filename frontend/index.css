@@ -81,4 +81,13 @@ footer {
   justify-content: space-evenly;
   width: 100%;
 }
+@media screen and (max-width: 400px) {
+  .background{
+    height: auto;
+  }
+  p{
+   font-size: smaller;
+  }
+  
+}
 

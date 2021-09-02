@@ -23,3 +23,9 @@
     padding: 1%;
     font-family: 'Roboto-Medium';
 }
+
+@media screen and (max-width: 400px) {
+    h2{
+        font-size: larger;
+    }
+}

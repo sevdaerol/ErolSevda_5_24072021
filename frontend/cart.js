@@ -54,7 +54,7 @@ function viewCart() {
         let productPrice = document.createElement("div");
         productInCart.appendChild(productPrice);
         productPrice.classList.add("cart_filled_informations_pricejs","classStyle",);
-        productPrice.price = copyLocalStorage[article].price/100;
+        productPrice.price = copyLocalStorage[article].price;
 
         productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
             style: "currency",
@@ -70,6 +70,7 @@ function totalOfCart() {
     //console.log(arrayForPrice);
     let priceTotal = document.querySelector(".total");
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
+    let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
 
     for (let m in pushEachPriceToArray) {
         arrayForPrice.push(pushEachPriceToArray[m].price); // on push le prix dans le tableau
