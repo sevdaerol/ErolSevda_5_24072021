@@ -18,7 +18,6 @@ function getArticles() { //fonction
         // message en cas derreur
         .catch((error) => {
             products.innerHTML = "Une erreur est survenue.Réessayer plustard!";
-
         })
 
         // afficher sur la console avec node: aller sur le terminal lancer le serveur --> backend - npm install - npm run start - node server 
@@ -63,12 +62,10 @@ function getArticles() { //fonction
                 // methode pour formater le prix 
                 //inserer le prix avec la methode; new = objet / intl.numberformat = la classe / paranthese = fonction => format => inserer prix
                 productInfosPrice.innerHTML = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR",}).format(productInfosPrice.price);
-
-                
+ 
             }
         })
-    console.log('ok')
-
+    console.log(getArticles)
 }
 
 

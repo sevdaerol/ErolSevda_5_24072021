@@ -71,7 +71,7 @@ function addToCart() {
                 arrayArticlesInCart = JSON.parse(localStorage.getItem("articles")); //recuperer les valeurs stockee
             }
              
-                arrayArticlesInCart.push(addProduct);   //envoyer vers panier
+                arrayArticlesInCart.push(addProduct);   //envoyer vers tableau
                 localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart)); //stocker cle/valeur localstorage
                 //si produit ajouter au panier afficher confirmation
                 addConfirmation.style.visibility = "visible";
@@ -88,4 +88,4 @@ function addToCart() {
         }
     });
 }
-console.log("ok!");
+console.log(getArticles);

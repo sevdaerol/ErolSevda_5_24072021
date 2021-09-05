@@ -5,9 +5,10 @@ main(); //function call
 
 function main() {
     viewCart();
-    forEmptyCart();
     totalOfCart();
+    forEmptyCart();
     submitForm();
+    validEmail();
 }
 
 function viewCart() {
@@ -67,13 +68,14 @@ function viewCart() {
 //fonction pour total du panier!!!!!
 function totalOfCart() {
     let arrayForPrice = [];
-    //console.log(arrayForPrice);
+    console.log(arrayForPrice);
     let priceTotal = document.querySelector(".total");
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
     let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
 
     for (let m in pushEachPriceToArray) {
-        arrayForPrice.push(pushEachPriceToArray[m].price); // on push le prix dans le tableau
+        arrayForPrice.push(pushEachPriceToArray[m].price);
+        arrayForPrice.push(pushEachQuantityToArray[m].quantity); 
     }
 
     let newArrayForPrice = arrayForPrice.filter((x) => { //enlever les undefined du array => creer un nouvel array pour trier les undefined
@@ -176,7 +178,7 @@ form.user_mail.addEventListener('change', function() {
     validEmail(this);
 });
 
-//creer foonction validEmail
+//creer fonction validEmail
 const validEmail = function (inputEmail) {
     let emailRegExp = new RegExp(
         '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
@@ -195,10 +197,4 @@ const validEmail = function (inputEmail) {
         small.classList.remove('text-success');
     }
 };
-
-
-
-
-
-
 console.log("ok!");
