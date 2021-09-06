@@ -1,5 +1,5 @@
-let cart = document.querySelector(".cart_filled_details");
 let copyLocalStorage = JSON.parse(localStorage.getItem("articles")); //copier le tableau local storage
+console.log("ls: " +copyLocalStorage);
 
 main(); //function call
 
@@ -17,7 +17,7 @@ function viewCart() {
     let totalTest = document.querySelector(".total");
     let emptyCart = document.querySelector(".cart_empty"); //si le panier est vide
     let orderCart = document.querySelector(".cart_order"); //form
-    let filledCartDetails = document.querySelector(".cart_filled_details");
+    let cart = document.querySelector(".cart_filled_details");
 
     // si il ya un objet dans localstorage => afficher dans l'emplacement cree et masquer element .cart_empty
     if (localStorage.getItem("articles")) {
@@ -31,17 +31,18 @@ function viewCart() {
         emptyCart.style.display = "none";
     } else { 
         orderCart.style.display = "none";
-        filledCartDetails.style.display ="none";
+        cart.style.display ="none";
         filledCart.style.height = "85vh";
     }
 
     //creer emplacement pour les donnees recu du tableau localstorage
-    for (let article in copyLocalStorage) {
+    for (let article = 0; article < copyLocalStorage.length; article++) {
+        console.log("article :" +copyLocalStorage);
         let productInCart = document.createElement("div");
         cart.insertBefore(productInCart, ifempty);  //bouton vider le panier aavnt les produits dans le panier
         cart.insertBefore(totalTest, ifempty); //total avant le bouton vider panier
         productInCart.classList.add("cart_filled_informationsjs", "classStyle");
-
+ 
         let productName = document.createElement("div");
         productInCart.appendChild(productName);
         productName.classList.add("cart_filled_informations_titlejs", "classStyle");
@@ -68,14 +69,20 @@ function viewCart() {
 //fonction pour total du panier!!!!!
 function totalOfCart() {
     let arrayForPrice = [];
-    console.log(arrayForPrice);
+    console.log("tableaudeprix: " +arrayForPrice);
+
     let priceTotal = document.querySelector(".total");
+    console.log("total: " +priceTotal);
+
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
+    console.log("prix: " +pushEachPriceToArray[0]);
+
     let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
 
     for (let m in pushEachPriceToArray) {
-        arrayForPrice.push(pushEachPriceToArray[m].price);
-        arrayForPrice.push(pushEachQuantityToArray[m].quantity); 
+        arrayForPrice.push(m.price);
+        arrayForPrice.push(m.quantity);
+        console.log("quantite: " + m.quantity);
     }
 
     let newArrayForPrice = arrayForPrice.filter((x) => { //enlever les undefined du array => creer un nouvel array pour trier les undefined

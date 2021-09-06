@@ -54,31 +54,43 @@ function addToCart() {
     const addConfirmation = document.querySelector(".product_container_add_confirmation");
     const textConfirmation = document.querySelector(".product_container_confirmation_text");
 
-    //on ajoute un evenement "click" pouir l'envoi vers le panier
-    addToCartBtn.addEventListener("click", () => {       //au click
-        if (camQuantity.value > 0 && camQuantity.value < 10) {     // operateur "ET logique" si superieur a 0 et inferieur a 10
-            let addProduct = {                                   //ajoute au panier ceci
-                name: productPageTitle.innerHTML,
+    //on ajoute un evenement "click" pouir l'envoi vers localstorage
+    addToCartBtn.addEventListener("click", () => {   
+        if (camQuantity.value > 0 && camQuantity.value < 10) { 
+            let addProduct = {                                   //ajoute au panier l'objet selectionnee
+                name: productPageTitle.name,
                 price: productPagePrice.price,
                 quantity: parseFloat(document.querySelector("#camNumber").value),
                 _id: id,
             };
-//------------------LocalStorage-------------------------------------------------------
-           
-            let arrayArticlesInCart = [];   //tableau localstorage
-            
-            if (localStorage.getItem("articles") !== null) {
-                arrayArticlesInCart = JSON.parse(localStorage.getItem("articles")); //recuperer les valeurs stockee
+            console.log("produitajouter: ");
+            console.log("- " +addProduct.name);
+            console.log("- " +addProduct.price);
+            console.log("- " +addProduct.quantity);
+            console.log("- " +addProduct._id);
+//------------------LocalStorage-------------------------------------------------------            
+            let arrayArticlesInCart = JSON.parse(localStorage.getItem("articles"));
+            console.log("tableaudesproduits :" +arrayArticlesInCart);
+
+            //si il ya deja des objet dans localstorage on envoie addproduct dans la cle articles
+            if (arrayArticlesInCart) {
+                arrayArticlesInCart.push(addProduct);
+                localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart));
+                console.log("tableaudesrpoduits :" +arrayArticlesInCart);
+            } 
+            //si localstorage vide, on cree un tableau
+            else {
+                arrayArticlesInCart = [];
+                arrayArticlesInCart.push(addProduct);
+                localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart));
+                console.log("tableaudesproduits :" +arrayArticlesInCart);
             }
-             
-                arrayArticlesInCart.push(addProduct);   //envoyer vers tableau
-                localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart)); //stocker cle/valeur localstorage
                 //si produit ajouter au panier afficher confirmation
                 addConfirmation.style.visibility = "visible";
                 textConfirmation.innerHTML = `${camQuantity.value} article ajouté au panier!`;
                 textConfirmation.style.color = "white";
                 //executer un settimeout pour le delais d'affichage de message de confirmation
-                setTimeout("location.reload(true);", 5000);
+                //setTimeout("location.reload(true);", 5000);
         } else { //si non afficher ce message
              addConfirmation.style.visibility = "visible";
              textConfirmation.style.background = "red";
@@ -88,4 +100,3 @@ function addToCart() {
         }
     });
 }
-console.log(getArticles);
