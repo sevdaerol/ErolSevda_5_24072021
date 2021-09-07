@@ -8,7 +8,6 @@ function main() {
     totalOfCart();
     forEmptyCart();
     submitForm();
-    validEmail();
 }
 
 function viewCart() {
@@ -76,12 +75,11 @@ function totalOfCart() {
 
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
     console.log("prix: " +pushEachPriceToArray[0]);
-
-    let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
+    //let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
 
     for (let m in pushEachPriceToArray) {
-        arrayForPrice.push(m.price);
-        arrayForPrice.push(m.quantity);
+        arrayForPrice.push(pushEachPriceToArray[m].price);
+        arrayForPrice.push(pushEachPriceToArray[m].quantity);
         console.log("quantite: " + m.quantity);
     }
 
@@ -128,18 +126,19 @@ function submitForm () {
             !inputStreet.value ||
             !inputCity.value ||
             !inputPostal.value 
-        )
-        
+        )  
         {
             ifError.innerHTML = "Renseigner tout les champs!"; //..alors afficher message d'erreur
             e.preventDefault();
         }  
-        
         else { 
-            let boughtArticles = []; //tableau des produits acheter
-            boughtArticles.push(copyLocalStorage);
+            let boughtArticles = []; 
+            for(let i = 0; i < copyLocalStorage.length; i++){
+                boughtArticles.push(copyLocalStorage[i].id);
+            }
+            console.log("ba: " + boughtArticles);
             //tableau + objets infos 
-            const order = { //check backend /controllers/ camera.js
+            const order = {  
                 contact: {
                     firstName: inputName.value,
                     lastName: inputLastname.value,
@@ -147,9 +146,8 @@ function submitForm () {
                     city: inputCity.value,
                     email: inputMail.value,
                 },
-                products: boughtArticles,
+                products: boughtArticles
             };
-
             //requete post au backend!
             const options = {
                 method: "POST",
@@ -160,7 +158,7 @@ function submitForm () {
             //formater prix pour l'affichage
             let totalConfirmation = document.querySelector(".total").innerText;
             totalConfirmation = totalConfirmation.split(" :");
-
+            
             //envoi de la requete vers la page de confirmation
             fetch("http://localhost:3000/api/cameras/order", options)
             .then((Response) => Response.json())
@@ -169,12 +167,18 @@ function submitForm () {
                 console.log(data)
                 localStorage.setItem("orderId", data.orderId);
                 localStorage.setItem("total", totalConfirmation[1]);
+
+                let orderLocalStorage = [];
+                orderLocalStorage.push(data);
+                localStorage.setItem("order", JSON.stringify(orderLocalStorage));
+               
                 //verifier le statut de la requete
                 document.location.href = "confirmation.html";
             })
         }
     });
 }
+//boughtArticles.push(copyLocalStorage);
 
 //-----------------REGEXP--------------------------
 let form = document.querySelector('.order_form');
@@ -204,4 +208,3 @@ const validEmail = function (inputEmail) {
         small.classList.remove('text-success');
     }
 };
-console.log("ok!");
