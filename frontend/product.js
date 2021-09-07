@@ -32,12 +32,11 @@ function getArticles() {
     .then (function (resultsApi){
     article = resultsApi;
     productPageImg.src = article.imageUrl;
-    productPageTitle.innerHTML = article.name;
+    productPageTitle.innerText = article.name;
     productPageDescription.innerText = article.description;
     productPagePrice.price = article.price / 100;
     //REFORMATER prix!!!
     productPagePrice.innerText = new Intl.NumberFormat("fr-FR", {style: "currency",currency: "EUR",}).format(article.price/100);
-    
     // creer boucle pour les options lentilles
     let camLenses = document.getElementById("lenses_select");
     for (let i = 0; i < article.lenses.length; i++) {
@@ -47,6 +46,7 @@ function getArticles() {
         }
     });
 }
+
 
 // ----------------------------------------nouvelle fonction pour l'ajout au panier---------------------------
 function addToCart() {
@@ -58,7 +58,7 @@ function addToCart() {
     addToCartBtn.addEventListener("click", () => {   
         if (camQuantity.value > 0 && camQuantity.value < 10) { 
             let addProduct = {                                   //ajoute au panier l'objet selectionnee
-                name: productPageTitle.name,
+                name: productPageTitle.innerHTML,
                 price: productPagePrice.price,
                 quantity: parseFloat(document.querySelector("#camNumber").value),
                 _id: id,
