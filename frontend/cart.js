@@ -183,28 +183,57 @@ function submitForm () {
 //-----------------REGEXP--------------------------
 let form = document.querySelector('.order_form');
 //console.log(form.user_mail);
-
 //ajouter addeventlistener pour ecouter les changements
+form.user_name.addEventListener('change', function() {
+    validName(this);
+});
+form.user_lastname.addEventListener('change', function() {
+    validLastName(this);
+});
 form.user_mail.addEventListener('change', function() {
     validEmail(this);
 });
-
-//creer fonction validEmail
+form.user_street.addEventListener('change', function() {
+    validStreet(this);
+});
+form.user_city.addEventListener('change', function() {
+    validCity(this);
+});
+form.user_postal.addEventListener('change', function() {
+    validPostal(this);
+});
+//fonction pour valider name
+const validName = function (inputName) {
+    let nameRegExp = new RegExp(/^[a-zA-Z ,.'-]+$/);
+    let small = inputName.nextElementSibling;
+    //On teste l'expression regulière
+  if (nameRegExp.test(inputName.value)) {
+    small.innerHTML = "Nom Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+    return true;
+  } else {
+    small.innerHTML = "Nom non valide!";
+    small.classList.remove("text-success");
+    small.classList.add("text-danger");
+    return false;
+  }
+};
+//fonction pour valider email
 const validEmail = function (inputEmail) {
     let emailRegExp = new RegExp(
         '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
     );
     let testEmail = emailRegExp.test(inputEmail.value);
     //console.log(testEmail);
-    let small = inputEmail.nextElementSibling;
-
+    let caseEmail = inputEmail.nextElementSibling;
     if (testEmail) {
-        small.innerHTML = 'Email valide!';
-        small.classList.remove('text-danger');
-        small.classList.add('text-success');
+        caseEmail.innerHTML = 'Email valide!';
+        caseEmail.classList.remove('text-danger');
+        caseEmail.classList.add('text-success');
     } else {
-        small.innerHTML = 'Email non valide!';
-        small.classList.add('text-danger');
-        small.classList.remove('text-success');
+        caseEmail.innerHTML = 'Email non valide!';
+        caseEmail.classList.add('text-danger');
+        caseEmail.classList.remove('text-success');
     }
 };

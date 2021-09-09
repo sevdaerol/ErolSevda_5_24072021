@@ -1,11 +1,11 @@
 
 // ..
 main(); //function call  
-// creer fonction
-function main() { //fonction
-    getArticles();
+//fonction
+async function main() { 
+    const articles = await getArticles();
 }
-let article = []; // variable correspond a 'for'
+let article = []; //tableau des articles
 
 // Recuperer Api
 function getArticles() { //fonction
@@ -67,5 +67,3 @@ function getArticles() { //fonction
         })
     console.log(getArticles)
 }
-
-
