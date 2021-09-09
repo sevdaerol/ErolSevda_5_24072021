@@ -58,7 +58,7 @@ function addToCart() {
     addToCartBtn.addEventListener("click", () => {   
         if (camQuantity.value > 0 && camQuantity.value < 10) { 
             let addProduct = {                                   //ajoute au panier l'objet selectionnee
-                name: productPageTitle.innerHTML,
+                name: productPageTitle.innerHTML ,
                 price: productPagePrice.price,
                 quantity: parseFloat(document.querySelector("#camNumber").value),
                 _id: id,
@@ -69,13 +69,13 @@ function addToCart() {
             console.log("- " +addProduct.quantity);
             console.log("- " +addProduct._id);
 //------------------LocalStorage-------------------------------------------------------            
-            let arrayArticlesInCart = JSON.parse(localStorage.getItem("articles"));
+            let arrayArticlesInCart = JSON.parse(localStorage.getItem("articles")); //variable pour mettre les keys et value qui sont dans localstorage
             console.log("tableaudesproduits :" +arrayArticlesInCart);
 
             //si il ya deja des objet dans localstorage on envoie addproduct dans la cle articles
             if (arrayArticlesInCart) {
                 arrayArticlesInCart.push(addProduct);
-                localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart));
+                 localStorage.setItem("articles", JSON.stringify(arrayArticlesInCart));
                 console.log("tableaudesrpoduits :" +arrayArticlesInCart);
             } 
             //si localstorage vide, on cree un tableau
