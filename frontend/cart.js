@@ -284,7 +284,7 @@ const validCity = function (inputCity) {
     small.classList.remove("text-success");
   }
 };
-//valide codepostal
+//valide codepostal ;;;
 const validPostal = function (inputPostal) {
     let PostalRegExp = new RegExp(/^[0-9]{1,25}$/);
     let small = inputPostal.nextElementSibling;
