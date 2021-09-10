@@ -181,45 +181,82 @@ function submitForm () {
 //boughtArticles.push(copyLocalStorage);
 
 //-----------------REGEXP--------------------------
-let form = document.querySelector('.order_form');
-//console.log(form.user_mail);
+let form = document.querySelectorAll('.order_form input');
+//console.log(form.user_name);
 //ajouter addeventlistener pour ecouter les changements
-form.user_name.addEventListener('change', function() {
-    validName(this);
-});
-form.user_lastname.addEventListener('change', function() {
-    validLastName(this);
-});
-form.user_mail.addEventListener('change', function() {
-    validEmail(this);
-});
-form.user_street.addEventListener('change', function() {
-    validStreet(this);
-});
-form.user_city.addEventListener('change', function() {
-    validCity(this);
-});
-form.user_postal.addEventListener('change', function() {
-    validPostal(this);
-});
-//fonction pour valider name
-const validName = function (inputName) {
-    let nameRegExp = new RegExp(/^[a-zA-Z ,.'-]+$/);
-    let small = inputName.nextElementSibling;
-    //On teste l'expression regulière
-  if (nameRegExp.test(inputName.value)) {
-    small.innerHTML = "Nom Valide!";
+for (let input of form) {
+    input.addEventListener('change', function () {
+      //console.log(input);
+      //validName(this);
+      validLastName(this);
+      //validEmail(this);
+      //validStreet(this);
+     // validCity(this);
+      //validPostal(this);
+    });
+  }
+//form.user_street.addEventListener('change', function() {validStreet(this);}); => exemple syntaxe pour qu'un seul input!!!
+//fonction pour valider prenom
+
+//valider nom
+const validLastName = function (inputLastname) {
+    let LastNameRegExp = new RegExp(/^[a-zA-Z ,.'-]+$/);
+    let emailRegExp = new RegExp(
+        '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
+    );
+    //let StreetRegExp = new RegExp(/^[#.0-9a-zA-Z\s,-]+$/);
+    //let PostalRegExp = new RegExp(/^[a-zA-Z',.\s-]{1,25}$/);
+    let inputtt = document.querySelectorAll("#inputtt")
+    let small = inputtt.nextElementSibling;
+    //On teste les expressions regulière
+  if (LastNameRegExp.test(inputLastname.value)) {
+    small.innerHTML =  "Nom Valide!";
     small.classList.remove("text-danger");
     small.classList.add("text-success");
-    return true;
   } else {
     small.innerHTML = "Nom non valide!";
-    small.classList.remove("text-success");
     small.classList.add("text-danger");
-    return false;
+    small.classList.remove("text-success");
+  }
+  if (LastNameRegExp.test(inputName.value)) {
+    small.innerHTML =  "prenom Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+  } else {
+    small.innerHTML = "prenom non valide!";
+    small.classList.add("text-danger");
+    small.classList.remove("text-success");
+  }
+  if (emailRegExp.test(inputMail.value)) {
+    small.innerHTML =  "email Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+  } else {
+    small.innerHTML = "email non valide!";
+    small.classList.add("text-danger");
+    small.classList.remove("text-success");
   }
 };
-//fonction pour valider email
+
+
+//const validName = function (inputName) {
+    let nameRegExp = new RegExp(/^[a-zA-Z ,.'-]+$/);
+    //let small = inputtt.nextElementSibling;
+    //On teste les expressions regulière
+  if (nameRegExp.test(inputName.value)) {
+    small.innerHTML =  "Prénom Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+   
+  } else {
+    small.innerHTML = "Prénom non valide!";
+    small.classList.add("text-danger");
+    small.classList.remove("text-success");
+    
+  }
+
+
+//valider email
 const validEmail = function (inputEmail) {
     let emailRegExp = new RegExp(
         '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
@@ -236,4 +273,50 @@ const validEmail = function (inputEmail) {
         caseEmail.classList.add('text-danger');
         caseEmail.classList.remove('text-success');
     }
+};
+//Valider Rue
+const validStreet = function (inputStreet) {
+    let StreetRegExp = new RegExp(/^[#.0-9a-zA-Z\s,-]+$/);
+    let small = inputStreet.nextElementSibling;
+    //On teste les expressions regulière
+  if (StreetRegExp.test(inputStreet.value)) {
+    small.innerHTML =  "Adresse Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+  } else {
+    small.innerHTML = "Adresse non valide!";
+    small.classList.add("text-danger");
+    small.classList.remove("text-success");
+  }
+};
+//valider ville
+const validCity = function (inputCity) {
+    let CityRegExp = new RegExp(/^[a-zA-Z',.\s-]{1,25}$/);
+    let small = inputCity.nextElementSibling;
+    //On teste les expressions regulière
+  if (CityRegExp.test(inputCity.value)) {
+    small.innerHTML =  "Adresse Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+  } else {
+    small.innerHTML = "Adresse non valide!";
+    small.classList.add("text-danger");
+    small.classList.remove("text-success");
+  }
+};
+const validPostal = function (inputPostal) {
+    let PostalRegExp = new RegExp(/^[a-zA-Z',.\s-]{1,25}$/);
+    let small = inputPostal.nextElementSibling;
+    //On teste les expressions regulière
+  if (PostalRegExp.test(inputPostal.value)) {
+    small.innerHTML =  "Code postal Valide!";
+    small.classList.remove("text-danger");
+    small.classList.add("text-success");
+    return true;
+  } else {
+    small.innerHTML = "Code postal non valide!";
+    small.classList.add("text-danger");
+    small.classList.remove("text-success");
+    return false;
+  }
 };
