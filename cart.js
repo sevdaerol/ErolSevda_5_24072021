@@ -153,25 +153,25 @@ function submitForm () {
             };
             console.log("order: " + order);
             //requete post au backend!
-            /*const promise = {
+            const promise = {
                 method: "POST",
                 body: JSON.stringify(order), //transformer objet en chaine caractere
                 headers: { "Content-Type": "application/json"},
             };
-            console.log("prms: " + promise);*/
-
-            //(formater prix pour l'affichage)
-            let totalConfirmation = document.querySelector(".total").innerText;
-            totalConfirmation = totalConfirmation.split(" :"); 
-            
+            console.log("prms: " + promise);
+ 
             //envoi de la requete vers la page de confirmation
             fetch("http://localhost:3000/api/cameras/order", promise)
             .then((Response) => Response.json())
             .then((response) => {
-                console.log(response["orderId"]);
-                localStorage.setItem("orderid", response["orderId"]);
+
+                let objetretour = response;
+                console.log(objetretour["orderId"]);
+                localStorage.setItem("orderid", objetretour["orderId"]);
+
+                let totalConfirmation = document.querySelector(".total").innerText;
+                totalConfirmation = totalConfirmation.split(" :");
                 localStorage.setItem("total", totalConfirmation[1]);
-                localStorage.clear();
 
                 //verifier le statut de la requete
                 document.location.href = "confirmation.html";

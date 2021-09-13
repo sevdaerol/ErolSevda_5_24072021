@@ -25,12 +25,12 @@ function getArticles() {
     .catch((error) => {
         let errorMessage = document.querySelector(".product_container");
         errorMessage.innerHTML = "Une erreur est survenue.Réessayer plustard!";
-    }
-    )
+    })
 
 //affichage&placement des informations 
     .then (function (resultsApi){
     article = resultsApi;
+    console.log("articleselectionnee: " +article)
     productPageImg.src = article.imageUrl;
     productPageTitle.innerText = article.name;
     productPageDescription.innerText = article.description;
@@ -63,7 +63,7 @@ function addToCart() {
                 quantity: parseFloat(document.querySelector("#camNumber").value),
                 _id: id,
             };
-            console.log("produitajouter: ");
+            console.log("produitajouter: " +addProduct);
             console.log("- " +addProduct.name);
             console.log("- " +addProduct.price);
             console.log("- " +addProduct.quantity);

@@ -12,6 +12,6 @@ function displayConfirmationPage() {
     totalConfirmationPage.innerText = localStorage.getItem("total");
     idOrder.innerText = localStorage.getItem("orderId");
     console.log(idOrder);
-    //vider le local storage pour recommander
-    localStorage.clear();
 }
+ //vider le local storage pour recommander
+ localStorage.clear();

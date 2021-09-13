@@ -20,23 +20,23 @@ function getArticles() { //fonction
         // afficher sur la console avec node: aller sur le terminal lancer le serveur --> backend - npm install - npm run start - node server 
         .then(function (resultsAPI) {
             const articles = resultsAPI;
-            console.log("tableauDesArticles: "); //loger a chaque nouvel rentree
+            console.log("tableauDesArticles: ");
             console.log(articles);
             // afficher dans le DOM
             for (let article in articles) {
                 
                 let productCart = document.createElement("div"); //creer nouvel element
                 document.getElementById(".products"); //dans celui-la
-                products.appendChild(productCart); //enfant de la gauche
+                products.appendChild(productCart);
                 productCart.classList.add("cart_product"); //avec cet class..
                 //lien
                 let productLink = document.createElement("a"); //creer element pour le lien
-                productCart.appendChild(productLink); //enfant de la gauche
+                productCart.appendChild(productLink); 
                 productLink.href = `product.html?id=${articles[article]._id}`; //inserer le lien de l'article
                 productLink.classList.add("article_link"); //avec cet class
                 //image
                 let productImgDiv = document.createElement("div"); //cree element pour img
-                productLink.appendChild(productImgDiv); //enfant du productlink
+                productLink.appendChild(productImgDiv); 
                 productImgDiv.classList.add("product_img"); //avec cet class
 
                 let productImg = document.createElement("img"); //element pour img
