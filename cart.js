@@ -1,3 +1,4 @@
+
 let copyLocalStorage = JSON.parse(localStorage.getItem("articles")); //copier le tableau local storage
 console.log("ls: " +copyLocalStorage);
 
@@ -70,17 +71,16 @@ function totalOfCart() {
     let arrayForPrice = [];
     console.log("tableaudeprix: " +arrayForPrice);
 
-    let priceTotal = document.querySelector(".total");
-    console.log("total: " +priceTotal);
-
     let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
     console.log("prix: " +pushEachPriceToArray[0]);
-    //let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
+    let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
+    console.log("quantite: " +pushEachQuantityToArray);
 
     for (let m in pushEachPriceToArray) {
         arrayForPrice.push(pushEachPriceToArray[m].price);
-        arrayForPrice.push(pushEachPriceToArray[m].quantity);
-        console.log("quantite: " + m.quantity);
+    }
+    for (let m in pushEachQuantityToArray) {
+        arrayForPrice.push(pushEachQuantityToArray[m].quantity);  
     }
 
     let newArrayForPrice = arrayForPrice.filter((x) => { //enlever les undefined du array => creer un nouvel array pour trier les undefined
@@ -93,7 +93,9 @@ function totalOfCart() {
     const reducerTest = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
     let totalTest = newArrayForPrice.reduce(reducerTest);
     console.log(totalTest);
-
+    //affichage total 
+    let priceTotal = document.querySelector(".total");
+    console.log("total: " +priceTotal);
     priceTotal.innerText = `Total : ${(totalTest)} €`;
   
 }
@@ -116,7 +118,7 @@ function submitForm () {
     let inputCity = document.querySelector("#city");
     let inputPostal = document.querySelector("#postal");
     let ifError = document.querySelector(".error_case");
-
+    console.log(inputName);
     //au click si un champs n'est pas renseigner.. 
     submit.addEventListener("click", (e) => {
         if (
@@ -128,16 +130,17 @@ function submitForm () {
             !inputPostal.value 
         )  
         {
+            console.log("je suis passeser dans then");
             ifError.innerHTML = "Renseigner tout les champs!"; //..alors afficher message d'erreur
             e.preventDefault();
         }  
         else { 
+            console.log("je suis passeser dans else");
             let boughtArticles = []; 
-            for(let i = 0; i < copyLocalStorage.length; i++){
-                boughtArticles.push(copyLocalStorage[i].id);
-            }
-            console.log("ba: " + boughtArticles);
-            //tableau + objets infos 
+            boughtArticles.push(copyLocalStorage);
+            console.log("nombreElementba: " + boughtArticles.length);
+            
+            //tableau d'objet d'information 
             const order = {  
                 contact: {
                     firstName: inputName.value,
@@ -148,37 +151,34 @@ function submitForm () {
                 },
                 products: boughtArticles
             };
+            console.log("order: " + order);
             //requete post au backend!
-            const options = {
+            /*const promise = {
                 method: "POST",
-                body: JSON.stringify(order),
+                body: JSON.stringify(order), //transformer objet en chaine caractere
                 headers: { "Content-Type": "application/json"},
             };
+            console.log("prms: " + promise);*/
 
-            //formater prix pour l'affichage
+            //(formater prix pour l'affichage)
             let totalConfirmation = document.querySelector(".total").innerText;
-            totalConfirmation = totalConfirmation.split(" :");
+            totalConfirmation = totalConfirmation.split(" :"); 
             
             //envoi de la requete vers la page de confirmation
-            fetch("http://localhost:3000/api/cameras/order", options)
+            fetch("http://localhost:3000/api/cameras/order", promise)
             .then((Response) => Response.json())
-            .then((data) => {
-                localStorage.clear();
-                console.log(data)
-                localStorage.setItem("orderId", data.orderId);
+            .then((response) => {
+                console.log(response["orderId"]);
+                localStorage.setItem("orderid", response["orderId"]);
                 localStorage.setItem("total", totalConfirmation[1]);
+                localStorage.clear();
 
-                let orderLocalStorage = [];
-                orderLocalStorage.push(data);
-                localStorage.setItem("order", JSON.stringify(orderLocalStorage));
-               
                 //verifier le statut de la requete
                 document.location.href = "confirmation.html";
             })
         }
     });
 }
-//boughtArticles.push(copyLocalStorage);
 
 //-----------------REGEXP--------------------------
 let form = document.querySelector('.order_form');
