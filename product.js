@@ -50,9 +50,7 @@ function getArticles() {
             errorMessage.innerHTML = "Une erreur est survenue.Réessayer plustard!";
         })
 }
-
-
-//****************************nouvelle fonction pour l'ajout au panier**********************
+//****************nouvelle fonction pour l'ajout au panier**********************
 
 function addToCart() {
     const addToCartBtn = document.querySelector(".product_container_button_addCart");
@@ -77,7 +75,7 @@ function addToCart() {
            // console.log("- " +addProduct._id);
 
 //*************LocalStorage********************************* 
-//          la variable pour mettre les key et les values qui sont dans le local storage 
+            //la variable pour mettre les key et les values qui sont dans le local storage 
             let arrayArticlesInCart = JSON.parse(localStorage.getItem("articles")); //JSON.parse => pour convertir les objets javascripts dans le local storage a des donnees au format JSON
             //console.log(arrayArticlesInCart);
 
@@ -89,7 +87,6 @@ function addToCart() {
             arrayArticlesInCart.push(addProduct);
             localStorage.setItem(addProduct._id, JSON.stringify(addProduct));
             console.log(arrayArticlesInCart);
-           
             //console.log("apres ajout nombre de ptoduits dans panier :" +arrayArticlesInCart.length);
 
             //si produit ajouter au panier afficher confirmation
@@ -97,7 +94,7 @@ function addToCart() {
             textConfirmation.innerHTML = `${camQuantity.value} article ajouté au panier!`;
             textConfirmation.style.color = "white";
             //executer un settimeout pour le delais d'affichage de message de confirmation
-            //setTimeout("location.reload(true);", 5000);
+            setTimeout("location.reload(true);", 5000);
         } else { //si non afficher ce message
             addConfirmation.style.visibility = "visible";
             textConfirmation.style.background = "red";

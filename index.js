@@ -1,30 +1,23 @@
-
 //function call   
 getArticles();
 
 let article = []; //information pour un article dans tableau 
+console.log(article);
 
+//lancer le serveur avec node: aller sur le terminal lancer le serveur --> backend - npm install - npm run start - node server 
 // Recuperer Api
-function getArticles() { //fonction
-    fetch("http://localhost:3000/api/cameras")
-        .then(function (res) {
-            if (res.ok) {
-                return res.json();
-            }
-        })
-        // message en cas derreur
-        .catch((error) => {
-            products.innerHTML = "Une erreur est survenue.Réessayer plustard!";
-        })
+function getArticles() {
+    const getAPI = fetch("http://localhost:3000/api/cameras");
 
-        // afficher sur la console avec node: aller sur le terminal lancer le serveur --> backend - npm install - npm run start - node server 
-        .then(function (resultsAPI) {
-            const articles = resultsAPI;
-            console.log("tableauDesArticles: ");
+    getAPI
+        .then(async (resultsAPI) => {
+            console.log(resultsAPI);
+            const articles = await resultsAPI.json();
+            // console.log("tableauDesArticles: ");
             console.log(articles);
             // afficher dans le DOM
             for (let article in articles) {
-                
+
                 let productCart = document.createElement("div"); //creer nouvel element
                 document.getElementById(".products"); //dans celui-la
                 products.appendChild(productCart);
@@ -32,7 +25,7 @@ function getArticles() { //fonction
                 //lien
                 let productLink = document.createElement("a"); //creer element pour le lien
                 productCart.appendChild(productLink); 
-                productLink.href = `product.html?id=${articles[article]._id}`; //inserer le lien de l'article
+                productLink.href = `product.html?id=${articles[article]._id}`; //inserer le lien de l'article avec le nom de la page produit + point d'interrogation + le nom avce la quelle on va recuperer sur la page prochaine(ici 'id'), pour redirrigee au click 
                 productLink.classList.add("article_link"); //avec cet class
                 //image
                 let productImgDiv = document.createElement("div"); //cree element pour img
@@ -63,4 +56,8 @@ function getArticles() { //fonction
                 console.log("un article: " + articles[article]._id);
             }
         })
+        .catch((error) => {
+            products.innerHTML = "Une erreur est survenue.Réessayer plustard!";
+        })
+
 }

@@ -1,26 +1,26 @@
-
-let copyLocalStorage = JSON.parse(localStorage.getItem("articles")); //copier le tableau local storage
-console.log("ls: " +copyLocalStorage);
+let copyLocalStorage = localStorage; //copier le tableau local storage
+console.log(copyLocalStorage);
+console.log("nombre dans ls: " + copyLocalStorage.length);
 
 main(); //function call
 
 function main() {
     viewCart();
-    totalOfCart();
     forEmptyCart();
-    submitForm();
+   // submitForm();
 }
-
 function viewCart() {
     let filledCart = document.querySelector(".cart_filled");
-    let ifempty = document.querySelector(".empty_cart_case"); //vider le panier
+    let emptyCart = document.querySelector(".empty_cart_case"); //vider le panier
     let totalTest = document.querySelector(".total");
-    let emptyCart = document.querySelector(".cart_empty"); //si le panier est vide
+    let ifEmpty = document.querySelector(".cart_empty"); //si le panier est vide
     let orderCart = document.querySelector(".cart_order"); //form
     let cart = document.querySelector(".cart_filled_details");
-
+    //le panier au depart = vide 
+    let totalCart = 0;
     // si il ya un objet dans localstorage => afficher dans l'emplacement cree et masquer element .cart_empty
-    if (localStorage.getItem("articles")) {
+    if (copyLocalStorage.length > 0) { //si le contenue du local storage est superieur a 0
+        console.log("le panier est non vide");
         filledCart.style.display = "flex";
         filledCart.style.flexDirection = "column";
         filledCart.style.justifyContent = "space-between";
@@ -28,76 +28,64 @@ function viewCart() {
         filledCart.style.padding = "2%";
         filledCart.style.margin = "3%";
         filledCart.style.width = "75%";
-        emptyCart.style.display = "none";
-    } else { 
+        ifEmpty.style.display = "none";
+        //creer emplacement pour les donnees recu du tableau localstorage
+        for (let article = 0; article < copyLocalStorage.length; article++) {
+            //for (let article in copyLocalStorage) {
+            console.log(article);
+            let productInCart = document.createElement("div");
+            cart.insertBefore(productInCart, emptyCart);  //bouton vider le panier avant les produits dans le panier
+            cart.insertBefore(totalTest, emptyCart); //total avant le bouton vider panier
+            productInCart.classList.add("cart_filled_informationsjs", "classStyle");
+
+            let articleKey = copyLocalStorage.key(article); //recuperer la cle = id du produit
+            let articleInfos = JSON.parse(copyLocalStorage.getItem(articleKey));
+            console.log(articleInfos);
+            //console.log("nom article: " + articleInfos.name);
+
+            let productName = document.createElement("div");
+            productInCart.appendChild(productName);
+            productName.classList.add("cart_filled_informations_titlejs", "classStyle");
+            productName.innerHTML = articleInfos.name;
+            console.log("name: " + productName.innerHTML);
+
+            let productQuantity = document.createElement("div");
+            productInCart.appendChild(productQuantity);
+            productQuantity.classList.add("cart_filled_informations_quantityjs", "classStyle" );
+            productQuantity.innerHTML = articleInfos.quantity;
+            console.log("quantity: " + productQuantity.innerHTML);
+
+            let productPrice = document.createElement("div");
+            productInCart.appendChild(productPrice);
+            productPrice.classList.add("cart_filled_informations_pricejs","classStyle",);
+            productPrice.price = articleInfos.price;
+            productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
+                style: "currency",
+                currency: "EUR",
+            }).format(articleInfos.price * articleInfos.quantity);
+            //reformater prix +  calculer total de plusieurs quantitees
+            console.log("price: " + productPrice.innerHTML);
+            //le nouveau total dans le panier
+            totalCart =
+                //total deja dans le panier + l'article recuperee x la quantite
+                totalCart + articleInfos.quantity * articleInfos.price;
+        }
+        console.log("le total du panier: " + totalCart);
+        //formater l'affichage du prix total
+        totalCart = new Intl.NumberFormat("fr-FR", {style: "currency",currency: "EUR",}).format(totalCart);
+        console.log(totalCart);
+        //affichage total 
+        let priceTotal = document.querySelector(".total");
+        priceTotal.innerText = `Total : ${(totalCart)}`;
+        console.log(priceTotal.innerText);
+    }//si local storage est vide afficher message .cart_empty
+    else {
+        console.log("le panier est vide");
         orderCart.style.display = "none";
         cart.style.display ="none";
         filledCart.style.height = "85vh";
+        ifEmpty.style.display = "display";
     }
-
-    //creer emplacement pour les donnees recu du tableau localstorage
-    for (let article = 0; article < copyLocalStorage.length; article++) {
-        console.log("article :" +copyLocalStorage);
-        let productInCart = document.createElement("div");
-        cart.insertBefore(productInCart, ifempty);  //bouton vider le panier aavnt les produits dans le panier
-        cart.insertBefore(totalTest, ifempty); //total avant le bouton vider panier
-        productInCart.classList.add("cart_filled_informationsjs", "classStyle");
- 
-        let productName = document.createElement("div");
-        productInCart.appendChild(productName);
-        productName.classList.add("cart_filled_informations_titlejs", "classStyle");
-        productName.innerHTML = copyLocalStorage[article].name;
-
-        let productQuantity = document.createElement("div");
-        productInCart.appendChild(productQuantity);
-        productQuantity.classList.add("cart_filled_informations_quantityjs", "classStyle" );
-        productQuantity.innerHTML = copyLocalStorage[article].quantity;
-
-        let productPrice = document.createElement("div");
-        productInCart.appendChild(productPrice);
-        productPrice.classList.add("cart_filled_informations_pricejs","classStyle",);
-        productPrice.price = copyLocalStorage[article].price;
-
-        productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
-            style: "currency",
-            currency: "EUR",
-        }).format(copyLocalStorage[article].price * copyLocalStorage[article].quantity);
-        //reformater prix +  calculer total de plusieurs quantitees
-    }
-}
-
-//fonction pour total du panier!!!!!
-function totalOfCart() {
-    let arrayForPrice = [];
-    console.log("tableaudeprix: " +arrayForPrice);
-
-    let pushEachPriceToArray = document.querySelectorAll(".cart_filled_informations_pricejs");
-    console.log("prix: " +pushEachPriceToArray[0]);
-    let pushEachQuantityToArray = document.querySelectorAll(".cart_filled_informations_quantityjs");
-    console.log("quantite: " +pushEachQuantityToArray);
-
-    for (let m in pushEachPriceToArray) {
-        arrayForPrice.push(pushEachPriceToArray[m].price);
-    }
-    for (let m in pushEachQuantityToArray) {
-        arrayForPrice.push(pushEachQuantityToArray[m].quantity);  
-    }
-
-    let newArrayForPrice = arrayForPrice.filter((x) => { //enlever les undefined du array => creer un nouvel array pour trier les undefined
-        return x !== undefined;
-    });
-    console.log(newArrayForPrice);
-
-    //newArrayForPrice.map((pushEachPriceToArray) => parseInt(pushEachPriceToArray));  //transformer en nombre tout les valeurs du tableau
-   
-    const reducerTest = (accumulator, currentVal) => accumulator + currentVal;  //additionner le nombre total
-    let totalTest = newArrayForPrice.reduce(reducerTest);
-    console.log(totalTest);
-    //affichage total 
-    let priceTotal = document.querySelector(".total");
-    console.log("total: " +priceTotal);
-    priceTotal.innerText = `Total : ${(totalTest)} €`;
-  
 }
 
 //fonction: evenement pour vider le panier au click!
@@ -108,77 +96,128 @@ btnForEmptyCart.addEventListener("click", () => {
 });
 }
 
+
 //fonction pour soumettre le formulaire
-function submitForm () {
-    const submit = document.querySelector("#submit"); 
-    let inputName = document.querySelector("#name");
-    let inputLastname = document.querySelector("#lastname");
-    let inputMail = document.querySelector("#mail");
-    let inputStreet = document.querySelector("#street");
-    let inputCity = document.querySelector("#city");
-    let inputPostal = document.querySelector("#postal");
+//function submitForm () {
+    const submit = document.querySelector("#submit");
     let ifError = document.querySelector(".error_case");
-    console.log(inputName);
-    //au click si un champs n'est pas renseigner.. 
-    submit.addEventListener("click", (e) => {
-        if (
-            !inputName.value ||
-            !inputLastname.value ||
-            !inputMail.value ||
-            !inputStreet.value ||
-            !inputCity.value ||
-            !inputPostal.value 
-        )  
-        {
-            console.log("je suis passeser dans then");
-            ifError.innerHTML = "Renseigner tout les champs!"; //..alors afficher message d'erreur
-            e.preventDefault();
-        }  
-        else { 
-            console.log("je suis passeser dans else");
+
+    //ecouter le click.. 
+    submit.addEventListener("click", (e) => { 
+     //e.preventDefault();
+//******recuperation des values du formulaires pour la validation
+        let inputName = copyLocalStorage.setItem("name", document.querySelector("#name").value);
+        let inputLastname = copyLocalStorage.setItem("lastname", document.querySelector("#lastname").value);
+        let inputMail = copyLocalStorage.setItem("mail", document.querySelector("#mail").value);
+        let inputStreet = copyLocalStorage.setItem("street", document.querySelector("#street").value);
+        let inputCity = copyLocalStorage.setItem("city", document.querySelector("#city").value);
+        let inputPostal = copyLocalStorage.setItem("postal", document.querySelector("#postal").value);
+        console.log(inputName);
+        
+        //si les values du formulaire sont valide alors envoyer la requete
+        if (inputName && inputLastname && inputMail && inputStreet && inputCity && inputPostal) {
+             
+            //******tableau du produit a envoyer au serveur
             let boughtArticles = []; 
             boughtArticles.push(copyLocalStorage);
-            console.log("nombreElementba: " + boughtArticles.length);
+            console.log(boughtArticles);
             
-            //tableau d'objet d'information 
-            const order = {  
-                contact: {
-                    firstName: inputName.value,
-                    lastName: inputLastname.value,
-                    adress: inputStreet.value,
-                    city: inputCity.value,
-                    email: inputMail.value,
-                },
-                products: boughtArticles
+            //******objet contact
+            const contact = {
+            firstName: copyLocalStorage.getItem("name"),
+            lastName: localStorage.getItem("lastname"),
+            adress: localStorage.getItem("street"),
+            city: localStorage.getItem("city"),
+            email: localStorage.getItem("mail"),
+            }
+            console.log(contact);
+            
+            //******objet de contact et produit a envoyer au serveur
+            const ordered = { 
+                contact,
+                products : boughtArticles,
             };
-            console.log("order: " + order);
-            //requete post au backend!
-            const promise = {
-                method: "POST",
-                body: JSON.stringify(order), //transformer objet en chaine caractere
-                headers: { "Content-Type": "application/json"},
-            };
-            console.log("prms: " + promise);
- 
-            //envoi de la requete vers la page de confirmation
-            fetch("http://localhost:3000/api/cameras/order", promise)
-            .then((Response) => Response.json())
-            .then((response) => {
+            console.log(ordered);
 
-                let objetretour = response;
-                console.log(objetretour["orderId"]);
-                localStorage.setItem("orderid", objetretour["orderId"]);
+            //envoi de l'objet vers le serveur
+            const promise1 = fetch("http://localhost:3000/api/cameras/order", {
+            method: "POST",
+            body: JSON.stringify(ordered),
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            });
+            console.log(promise1);
 
-                let totalConfirmation = document.querySelector(".total").innerText;
-                totalConfirmation = totalConfirmation.split(" :");
-                localStorage.setItem("total", totalConfirmation[1]);
-
-                //verifier le statut de la requete
-                document.location.href = "confirmation.html";
+            const promise2 = fetch("http://localhost:3000/api/cameras/order")
+            promise2.then(async (response)=>{
+                try{
+                    console.log(promise2);
+                    const dataSurServeur = await response.json()
+                    console.log("dataSurServeur");
+                    console.log(dataSurServeur);
+                } catch(e){
+                    console.log(e);
+                }
             })
+            console.log(promise2);
+            console.log("je suis dans if");
+        }else {
+            ifError.innerHTML = "Erreur!";
+            console.log("je suis dans else");
         }
     });
-}
+//}
+
+//*****************
+       /* if (
+            !inputName ||
+            !inputLastname ||
+            !inputMail ||
+            !inputStreet ||
+            !inputCity ||
+            !inputPostal
+        ) { 
+            console.log("je suis passer dans then");
+            ifError.innerHTML = "Renseigner tout les champs!"; //..alors afficher message d'erreur
+           // e.preventDefault();} 
+
+        } else { 
+            //console.log("je suis passer dans else");
+            //let boughtArticles = []; 
+            //boughtArticles.push(copyLocalStorage);
+            //console.log(boughtArticles);
+            //console.log("nombreElementba: " + boughtArticles.length);
+        }
+
+        //pour voir le resultat du serveur dans la console
+            promise.then(async(response) => {
+                try{
+                    console.log(response);
+                    const contenu = await response.json();
+                    console.log(contenu);
+                    if(response.ok){
+                        console.log(`resultat response ok: ${response.ok}`);
+
+                        //recuperer id du response du serveur
+                        console.log(contenu._idd)
+                        //mettre cette id dans localstorage avec cle responseId 
+                        localStorage.setItem("responseId", contenu._idd);
+                        //mettre le prix dans localstorage
+                        let totalConfirmation = document.querySelector(".total").innerText;
+                        totalConfirmation = totalConfirmation.split(" :");
+                        localStorage.setItem("total", totalConfirmation[1]);
+                        //aller vers la apge confirmation commande
+                        document.location.href = "confirmation.html";
+                    }else{
+                        console.log(`resultat du serveur: ${response.status}`)
+                    };
+                }catch(e){
+                    console.log(e);
+                }
+            })*/
+       
+
 
 //-----------------REGEXP--------------------------
 let form = document.querySelector('.order_form');
