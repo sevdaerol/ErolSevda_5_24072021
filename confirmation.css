@@ -19,6 +19,9 @@
 .ordered {
     display: flex;
     flex-direction: column;
+    background-color: black;
+    color: white;
+    padding: 2%;
 }
 .display_orderid, .display_price {
     font-weight: bold;
