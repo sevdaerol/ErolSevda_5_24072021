@@ -1,13 +1,12 @@
 let copyLocalStorage = localStorage; //copier le tableau local storage
-console.log(copyLocalStorage);
-console.log("nombre dans ls: " + copyLocalStorage.length);
+//console.log(copyLocalStorage);
+//console.log("nombre dans ls: " + copyLocalStorage.length);
 
 main(); //function call
 
 function main() {
     viewCart();
     forEmptyCart();
-   // submitForm();
 }
 function viewCart() {
     let filledCart = document.querySelector(".cart_filled");
@@ -33,6 +32,7 @@ function viewCart() {
         for (let article = 0; article < copyLocalStorage.length; article++) {
             //for (let article in copyLocalStorage) {
             console.log(article);
+            
             let productInCart = document.createElement("div");
             cart.insertBefore(productInCart, emptyCart);  //bouton vider le panier avant les produits dans le panier
             cart.insertBefore(totalTest, emptyCart); //total avant le bouton vider panier
@@ -40,20 +40,20 @@ function viewCart() {
 
             let articleKey = copyLocalStorage.key(article); //recuperer la cle = id du produit
             let articleInfos = JSON.parse(copyLocalStorage.getItem(articleKey));
-            console.log(articleInfos);
+            //console.log(articleInfos);
             //console.log("nom article: " + articleInfos.name);
 
             let productName = document.createElement("div");
             productInCart.appendChild(productName);
             productName.classList.add("cart_filled_informations_titlejs", "classStyle");
             productName.innerHTML = articleInfos.name;
-            console.log("name: " + productName.innerHTML);
+            //console.log("name: " + productName.innerHTML);
 
             let productQuantity = document.createElement("div");
             productInCart.appendChild(productQuantity);
             productQuantity.classList.add("cart_filled_informations_quantityjs", "classStyle" );
             productQuantity.innerHTML = articleInfos.quantity;
-            console.log("quantity: " + productQuantity.innerHTML);
+            //console.log("quantity: " + productQuantity.innerHTML);
 
             let productPrice = document.createElement("div");
             productInCart.appendChild(productPrice);
@@ -64,16 +64,16 @@ function viewCart() {
                 currency: "EUR",
             }).format(articleInfos.price * articleInfos.quantity);
             //reformater prix +  calculer total de plusieurs quantitees
-            console.log("price: " + productPrice.innerHTML);
+            //console.log("price: " + productPrice.innerHTML);
             //le nouveau total dans le panier
             totalCart =
                 //total deja dans le panier + l'article recuperee x la quantite
                 totalCart + articleInfos.quantity * articleInfos.price;
         }
-        console.log("le total du panier: " + totalCart);
+        //console.log("le total du panier: " + totalCart);
         //formater l'affichage du prix total
         totalCart = new Intl.NumberFormat("fr-FR", {style: "currency",currency: "EUR",}).format(totalCart);
-        console.log(totalCart);
+        //console.log(totalCart);
         //affichage total 
         let priceTotal = document.querySelector(".total");
         priceTotal.innerText = `Total : ${(totalCart)}`;
@@ -96,128 +96,85 @@ btnForEmptyCart.addEventListener("click", () => {
 });
 }
 
-
-//fonction pour soumettre le formulaire
-//function submitForm () {
+/*********ENVOI DU FORMULAIRE ET LA REQUETE POST**********/
     const submit = document.querySelector("#submit");
     let ifError = document.querySelector(".error_case");
 
     //ecouter le click.. 
     submit.addEventListener("click", (e) => { 
-     //e.preventDefault();
-//******recuperation des values du formulaires pour la validation
-        let inputName = copyLocalStorage.setItem("name", document.querySelector("#name").value);
-        let inputLastname = copyLocalStorage.setItem("lastname", document.querySelector("#lastname").value);
-        let inputMail = copyLocalStorage.setItem("mail", document.querySelector("#mail").value);
-        let inputStreet = copyLocalStorage.setItem("street", document.querySelector("#street").value);
-        let inputCity = copyLocalStorage.setItem("city", document.querySelector("#city").value);
-        let inputPostal = copyLocalStorage.setItem("postal", document.querySelector("#postal").value);
-        console.log(inputName);
-        
+     e.preventDefault();
+
         //si les values du formulaire sont valide alors envoyer la requete
-        if (inputName && inputLastname && inputMail && inputStreet && inputCity && inputPostal) {
+        if (validName && validLastName && validStreet && validCity && validEmail && validPostal ) {
              
-            //******tableau du produit a envoyer au serveur
-            let boughtArticles = []; 
-            boughtArticles.push(copyLocalStorage);
-            console.log(boughtArticles);
+            //******tableau de ID du produit a envoyer au serveur
+            let boughtArticlesId = [];
+            console.log("nombre d'article selectionnee: " +copyLocalStorage.length);
+            for(let article = 0; article < copyLocalStorage.length; article++){
+
+                let articleCle = copyLocalStorage.key(article); //recuperer la cle 
+                //console.log("cle de l'article selectionee");
+                console.log(articleCle);
+                let articleCleInfo = JSON.parse(copyLocalStorage.getItem(articleCle));
+                //console.log("info de l'article selectionne");
+                //console.log(articleCleInfo);
+                let articleCleId = articleCleInfo._id; //recuperer l'id du produit dans la cle
+                //console.log("id de l'artice selectionee");
+                //console.log(articleCleId);
+                boughtArticlesId.push(articleCleId); //envoi de l'id vers le tableau
+            }
+            //console.log("tableau d'id");
+            //console.log(boughtArticlesId);
             
             //******objet contact
             const contact = {
-            firstName: copyLocalStorage.getItem("name"),
-            lastName: localStorage.getItem("lastname"),
-            adress: localStorage.getItem("street"),
-            city: localStorage.getItem("city"),
-            email: localStorage.getItem("mail"),
+            firstName: document.querySelector("#name").value,
+            lastName: document.querySelector("#lastname").value,
+            address: document.querySelector("#street").value,
+            city: document.querySelector("#city").value,
+            email: document.querySelector("#mail").value,
             }
-            console.log(contact);
+            //console.log(contact);
             
             //******objet de contact et produit a envoyer au serveur
             const ordered = { 
                 contact,
-                products : boughtArticles,
+                products : boughtArticlesId,
             };
-            console.log(ordered);
+            //console.log("ordered: ");
+            //console.log(ordered);
 
+            // Préparation du prix formaté pour l'afficher sur la prochaine page
+            let priceConfirmation = document.querySelector(".total").innerText;
+            priceConfirmation = priceConfirmation.split(" :");
+            
             //envoi de l'objet vers le serveur
-            const promise1 = fetch("http://localhost:3000/api/cameras/order", {
-            method: "POST",
-            body: JSON.stringify(ordered),
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            });
-            console.log(promise1);
-
-            const promise2 = fetch("http://localhost:3000/api/cameras/order")
-            promise2.then(async (response)=>{
-                try{
-                    console.log(promise2);
-                    const dataSurServeur = await response.json()
-                    console.log("dataSurServeur");
-                    console.log(dataSurServeur);
-                } catch(e){
-                    console.log(e);
-                }
+            fetch("http://localhost:3000/api/cameras/order", {
+                method: "POST",
+                body: JSON.stringify(ordered),
+                headers: {
+                    "Content-Type" : "application/json",
+                },
             })
-            console.log(promise2);
-            console.log("je suis dans if");
-        }else {
-            ifError.innerHTML = "Erreur!";
-            console.log("je suis dans else");
+            .then(function(response) { 
+                return response.json();
+            })
+            .then(function(value){
+                console.log("response: " + value.orderId);
+                localStorage.setItem("orderId", value.orderId);
+                localStorage.setItem("total", priceConfirmation[1]);
+
+                document.location.href = "confirmation.html";
+            })
+            .catch (function(error){
+                //console.log("reponse en erreur: ");
+                console.log(error);
+            });
+        } else {
+            ifError.innerHTML = "Une erreur est survenue!";
+            //console.log("je suis dans else");
         }
     });
-//}
-
-//*****************
-       /* if (
-            !inputName ||
-            !inputLastname ||
-            !inputMail ||
-            !inputStreet ||
-            !inputCity ||
-            !inputPostal
-        ) { 
-            console.log("je suis passer dans then");
-            ifError.innerHTML = "Renseigner tout les champs!"; //..alors afficher message d'erreur
-           // e.preventDefault();} 
-
-        } else { 
-            //console.log("je suis passer dans else");
-            //let boughtArticles = []; 
-            //boughtArticles.push(copyLocalStorage);
-            //console.log(boughtArticles);
-            //console.log("nombreElementba: " + boughtArticles.length);
-        }
-
-        //pour voir le resultat du serveur dans la console
-            promise.then(async(response) => {
-                try{
-                    console.log(response);
-                    const contenu = await response.json();
-                    console.log(contenu);
-                    if(response.ok){
-                        console.log(`resultat response ok: ${response.ok}`);
-
-                        //recuperer id du response du serveur
-                        console.log(contenu._idd)
-                        //mettre cette id dans localstorage avec cle responseId 
-                        localStorage.setItem("responseId", contenu._idd);
-                        //mettre le prix dans localstorage
-                        let totalConfirmation = document.querySelector(".total").innerText;
-                        totalConfirmation = totalConfirmation.split(" :");
-                        localStorage.setItem("total", totalConfirmation[1]);
-                        //aller vers la apge confirmation commande
-                        document.location.href = "confirmation.html";
-                    }else{
-                        console.log(`resultat du serveur: ${response.status}`)
-                    };
-                }catch(e){
-                    console.log(e);
-                }
-            })*/
-       
-
 
 //-----------------REGEXP--------------------------
 let form = document.querySelector('.order_form');
@@ -258,6 +215,7 @@ const validName = function (inputName) {
     return false;
   }
 };
+//console.log(validName);
 //valide nom
 const validLastName = function (inputLastname) {
     let LastNameRegExp = new RegExp(/^[a-zA-Z ,.'-]+$/);

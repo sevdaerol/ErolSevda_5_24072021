@@ -11,8 +11,19 @@
     height: 80vh;
     background-color: rgb(231, 231, 231);
 }
+.orderid{
+    display: flex;
+    flex-direction: column;
+}
 
-.ordered, .back_home_page{
+.ordered {
+    display: flex;
+    flex-direction: column;
+}
+.display_orderid, .display_price {
+    font-weight: bold;
+}
+.back_home_page{
     display: flex;
     flex-direction: column;
     align-items: center;
