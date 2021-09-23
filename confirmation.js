@@ -1,8 +1,4 @@
-main();
-
-function main() {
-    displayConfirmationPage();
-}
+displayConfirmationPage(); //function call
 
 //fonction pour afficher le prix et l'order id
 function displayConfirmationPage() {
