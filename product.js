@@ -75,7 +75,6 @@ function addToCart() {
            // console.log("- " +addProduct._id);
 
 //*************LocalStorage********************************* 
-            //la variable pour mettre les key et les values qui sont dans le local storage 
             let arrayArticlesInCart = JSON.parse(localStorage.getItem("articles")); //JSON.parse => pour convertir les objets javascripts dans le local storage a des donnees au format JSON
             //console.log(arrayArticlesInCart);
 
